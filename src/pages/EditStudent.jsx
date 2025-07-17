@@ -1,60 +1,52 @@
-import { useEffect, useState } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import StudentForm from '../components/StudentForm'
 
-export default function EditStudent() {
-  const { id } = useParams();
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [grade, setGrade] = useState('');
-  const navigate = useNavigate();
+const EditStudent = () => {
+  const { id } = useParams()
+  const navigate = useNavigate()
+  const [student, setStudent] = useState(null)
+  const [loading, setLoading] = useState(true)
 
   useEffect(() => {
-    fetch(`http://localhost:5000/students/${id}`)
-      .then(response => response.json())
-      .then(data => {
-        setName(data.name);
-        setAge(data.age);
-        setGrade(data.grade);
-      })
-      .catch(error => console.error(error));
-  }, [id]);
+    const fetchStudent = async () => {
+      try {
+        const response = await fetch(`http://localhost:5000/students/${id}`)
+        if (!response.ok) throw new Error('Failed to fetch student')
+        const data = await response.json()
+        setStudent(data)
+      } catch (err) {
+        alert('Failed to fetch student')
+      } finally {
+        setLoading(false)
+      }
+    }
+    fetchStudent()
+  }, [id])
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch(`http://localhost:5000/students/${id}`, {
-      method: 'PUT',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, age: parseInt(age), grade }),
-    })
-      .then(() => navigate('/'))
-      .catch(error => console.error(error));
-  };
+  const handleUpdate = async (updatedStudent) => {
+    try {
+      const response = await fetch(`http://localhost:5000/students/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updatedStudent),
+      })
+      if (!response.ok) throw new Error('Failed to update student')
+      navigate('/')
+    } catch (err) {
+      alert('Failed to update student')
+    }
+  }
+
+  if (loading) return <p>Loading...</p>
+  if (!student) return <p>Student not found.</p>
 
   return (
-    <form onSubmit={handleSubmit}>
+    <div className="container">
       <h1>Edit Student</h1>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
-        required
-      />
-      <input
-        type="number"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-        placeholder="Age"
-        required
-      />
-      <input
-        type="text"
-        value={grade}
-        onChange={(e) => setGrade(e.target.value)}
-        placeholder="Grade"
-        required
-      />
-      <button type="submit">Save Changes</button>
-    </form>
-  );
+      <StudentForm initialData={student} onSubmit={handleUpdate} />
+    </div>
+  )
 }
+
+export default EditStudent

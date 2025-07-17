@@ -1,29 +1,26 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react'
+import axios from 'axios'
 
-export function useApi(url, method = 'GET', body = null) {
-  const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+const useApi = (url) => {
+  const [data, setData] = useState([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url, {
-          method,
-          headers: { 'Content-Type': 'application/json' },
-          body: body ? JSON.stringify(body) : null,
-        });
-        if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
-        const result = await response.json();
-        setData(result);
+        const res = await axios.get(url)
+        setData(res.data)
       } catch (err) {
-        setError(err);
+        setError(err)
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchData();
-  }, [url, method, body]);
+    }
+    fetchData()
+  }, [url])
 
-  return { data, loading, error };
+  return { data, loading, error, setData }
 }
+
+export default useApi

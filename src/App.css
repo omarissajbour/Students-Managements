@@ -1,42 +1,160 @@
+/* خلي الـ html و body يملوا الصفحة كاملة */
+html, body, #root {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+}
+
+/* نخلي الـ root (ريأكت بيرندر فيه) يملأ الصفحة */
 #root {
-  max-width: 1280px;
-  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* شريط التنقل بعرض كامل */
+.navbar {
+  background-color: #282c34;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+}
+
+/* روابط التنقل */
+.nav-link {
+  color: white;
+  margin-right: 1.5rem;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+}
+
+.nav-link:hover {
+  text-decoration: underline;
+}
+
+/* حاوية المحتوى: عرض كامل مع padding */
+.container {
+  flex: 1; /* ليملأ الفراغ المتبقي */
+  width: 100%;
+  max-width: 1200px; /* عشان لا تكبر كثير */
+  margin: 2rem auto;
+  background: white;
   padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgb(0 0 0 / 0.1);
+  box-sizing: border-box;
+}
+
+/* جدول الطلاب */
+.student-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.student-table th,
+.student-table td {
+  border: 1px solid #ddd;
+  padding: 12px 10px;
+  text-align: left;
+  font-size: 1rem;
+}
+
+.student-table th {
+  background-color: #f2f2f2;
+}
+
+/* أزرار */
+.btn {
+  padding: 8px 15px;
+  margin-right: 8px;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.edit-btn {
+  background-color: #4caf50;
+  color: white;
+}
+
+.edit-btn:hover {
+  background-color: #45a049;
+}
+
+.delete-btn {
+  background-color: #f44336;
+  color: white;
+}
+
+.delete-btn:hover {
+  background-color: #e53935;
+}
+
+/* فورم الطلاب */
+.student-form div {
+  margin-bottom: 1.2rem;
+}
+
+.student-form input {
+  width: 100%;
+  padding: 0.7rem;
+  box-sizing: border-box;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* رسالة الخطأ */
+.error {
+  color: red;
+  font-size: 0.85rem;
+  margin-top: 0.25rem;
+}
+
+/* البحث والفرز */
+.search-sort {
+  margin-bottom: 1.5rem;
+  display: flex;
+  gap: 1rem;
+}
+
+.search-sort input,
+.search-sort select {
+  padding: 0.7rem;
+  flex: 1;
+  font-size: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+/* التصفح (pagination) */
+.pagination {
+  margin-top: 1.5rem;
   text-align: center;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.pagination button {
+  padding: 0.7rem 1.2rem;
+  margin: 0 0.25rem;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.pagination button.active {
+  background-color: #282c34;
+  color: white;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
-.card {
-  padding: 2em;
-}
-
-.read-the-docs {
-  color: #888;
+.pagination button:hover:not(.active) {
+  background-color: #ddd;
 }

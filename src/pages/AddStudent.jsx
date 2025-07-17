@@ -1,52 +1,37 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import StudentForm from '../components/StudentForm'
 
-export default function AddStudent() {
-  const [name, setName] = useState('');
-  const [age, setAge] = useState('');
-  const [grade, setGrade] = useState('');
-  const navigate = useNavigate();
+const AddStudent = () => {
+  const navigate = useNavigate()
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch('http://localhost:5000/students', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, age: parseInt(age), grade }),
-    })
-      .then(response => {
-        if (!response.ok) throw new Error('Failed to add student');
-        return response.json();
+  const handleAdd = async (student) => {
+    try {
+      const response = await fetch('http://localhost:5000/students', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: student.name,
+          age: Number(student.age),
+          grade: student.grade,
+        }),
       })
-      .then(() => navigate('/'))
-      .catch(error => console.error(error));
-  };
+
+      if (!response.ok) throw new Error('Failed to add student')
+
+      navigate('/')
+    } catch (err) {
+      alert('Failed to add student')
+      console.error(err)
+    }
+  }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <h1>Add New Student</h1>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Name"
-        required
-      />
-      <input
-        type="number"
-        value={age}
-        onChange={(e) => setAge(e.target.value)}
-        placeholder="Age"
-        required
-      />
-      <input
-        type="text"
-        value={grade}
-        onChange={(e) => setGrade(e.target.value)}
-        placeholder="Grade"
-        required
-      />
-      <button type="submit">Add Student</button>
-    </form>
-  );
+    <div className="container">
+      <h1>Add Student</h1>
+      <StudentForm onSubmit={handleAdd} />
+    </div>
+  )
 }
+
+export default AddStudent

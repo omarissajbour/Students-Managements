@@ -1,5 +1,4 @@
 {
-  "homepage": "https://omarissajbour.github.io/Students-Managements",
   "name": "student-management",
   "private": true,
   "version": "0.0.0",
@@ -9,9 +8,7 @@
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "server": "json-server --watch db.json --port 5000",
-    "predeploy": "npm run build",
-"deploy": "gh-pages -d build"
+    "server": "json-server --watch db.json --port 5000"
 
   },
   "dependencies": {

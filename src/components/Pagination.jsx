@@ -1,20 +1,39 @@
 import React from 'react'
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
-  const pages = []
-  for (let i = 1; i <= totalPages; i++) pages.push(i)
+  const pageNumbers = []
+
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i)
+  }
 
   return (
     <div className="pagination">
-      {pages.map(page => (
+      <button
+        onClick={() => onPageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="pagination-btn"
+      >
+        Previous
+      </button>
+
+      {pageNumbers.map(number => (
         <button
-          key={page}
-          onClick={() => onPageChange(page)}
-          className={page === currentPage ? 'active' : ''}
+          key={number}
+          onClick={() => onPageChange(number)}
+          className={`pagination-btn ${currentPage === number ? 'active' : ''}`}
         >
-          {page}
+          {number}
         </button>
       ))}
+
+      <button
+        onClick={() => onPageChange(currentPage + 1)}
+        disabled={currentPage === totalPages}
+        className="pagination-btn"
+      >
+        Next
+      </button>
     </div>
   )
 }

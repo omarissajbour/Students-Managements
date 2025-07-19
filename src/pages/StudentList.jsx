@@ -3,6 +3,8 @@ import { Link } from 'react-router-dom'
 import useApi from '../hooks/useApi'
 import SearchSort from '../components/SearchSort'
 import Pagination from '../components/Pagination'
+import { FaEdit, FaTrash } from 'react-icons/fa'
+
 
 const StudentList = () => {
   const { data: students, loading, error, setData } = useApi('http://localhost:5000/students')
@@ -71,8 +73,12 @@ const handleDelete = async (id) => {
                 <td>{age}</td>
                 <td>{grade}</td>
                 <td>
-                  <Link to={`/edit/${id}`} className="btn edit-btn">Edit</Link>
-                  <button onClick={() => handleDelete(id)} className="btn delete-btn">Delete</button>
+<Link to={`/edit/${id}`} className="icon-btn edit-btn">
+    <FaEdit />
+  </Link>
+  <button onClick={() => handleDelete(id)} className="icon-btn delete-btn">
+    <FaTrash />
+  </button>
                 </td>
               </tr>
             ))
